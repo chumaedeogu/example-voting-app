@@ -9,8 +9,9 @@ pipeline{
     stage('voting app'){
         steps{
             script{
-                dir('vote')
+                dir('vote'){
                 load Jenkinsfile
+                }
             }
         }
     }
