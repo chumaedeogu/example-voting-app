@@ -27,12 +27,12 @@ pipeline{
                 script{
                     test = waitForQualityGate()
                     if ($test.status != 'ok'){
-                         error "Pipeline failed due to SonarQube Quality Gate failure: ${qg.status}"
+                         error "Pipeline failed due to SonarQube Quality Gate failure: ${test.status}"
                     }
                 }
             }
         }
-        stage("trivy check"){
+        stage("trivy fs check"){
             steps{
                 sh ' trivy --fs --severity HIGH,CRITICAL --exit-code 1 chumaedeogu/vote:${build_number}'
             }
@@ -43,7 +43,7 @@ pipeline{
                 sh ' docker build -t chumaedeogu/vote:${build_number} .'
             }
         }
-        stage("trivy check"){
+        stage("trivy image check"){
             steps{
                 sh ' trivy --image --severity HIGH,CRITICAL --exit-code 1 chumaedeogu/vote:${build_number}'
             }
