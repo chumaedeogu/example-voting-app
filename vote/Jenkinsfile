@@ -2,12 +2,18 @@ pipeline{
     agent any
     tools(
         maven 'maven'
-        jdk 'jdk'
+    
     )
     environment{
         HOME_SONAR = tool(scanner)
     }
     stages{
+         stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'feature', url: 'https://github.com/dockersamples/example-voting-app.git'
+            }
+        }
         stage(" test static code analysist"){
             steps{
                 withSonarQubeEnv('sonar') {
@@ -29,6 +35,103 @@ pipeline{
                          error "Pipeline failed due to SonarQube Quality Gate failure: ${qg.status}"
                     }
                 }
+            }
+        }
+        stage("trivy check"){
+            steps{
+                sh ' trivy --fs --severity HIGH,CRITICAL --exit-code 1 chumaedeogu/vote:${build_number}'
+            }
+        }
+        stage("build docker file"){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            steps{
+                sh ' docker build -t chumaedeogu/vote:${build_number} .'
+            }
+        }
+        stage("trivy check"){
+            steps{
+                sh ' trivy --image --severity HIGH,CRITICAL --exit-code 1 chumaedeogu/vote:${build_number}'
             }
         }
 
