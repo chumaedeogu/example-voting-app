@@ -10,7 +10,7 @@ pipeline{
         steps{
             script{
                 dir('vote'){
-                load Jenkinsfile
+                load 'Jenkinsfile'
                 }
             }
         }
