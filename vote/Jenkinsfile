@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+    tools(
+        maven 'maven'
+    )
+    environment{
+        HOME_SONAR = tool(scanner)
+    }
+    stages{
+        stage(" test static code analysist"){
+            steps{
+                withSonarQubeEnv('sonar') {
+                  sh '''
+                    $HOME_SONAR/bin/scanner -Dsonar.projectName = "voteapp" \n
+                    -Dsonar.projectKey = "voteapp"
+                    '''
+                    }
+
+                
+                   }
+
+                    }
+        stage("wait for qulity gate"){
+            steps{
+                script{
+                    test = waitForQualityGate()
+                    if ($test.status != 'ok'){
+                         error "Pipeline failed due to SonarQube Quality Gate failure: ${qg.status}"
+                    }
+                }
+            }
+        }
+
+    }
+}
