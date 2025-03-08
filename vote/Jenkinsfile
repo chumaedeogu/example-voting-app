@@ -1,14 +1,13 @@
 pipeline{
     agent any
-    tools(
+    tools{
         maven 'maven'
     
-    )
+    }
     environment{
         HOME_SONAR = tool(scanner)
     }
     stages{
-         stages {
         stage('Checkout Code') {
             steps {
                 git branch: 'feature', url: 'https://github.com/dockersamples/example-voting-app.git'
@@ -43,88 +42,7 @@ pipeline{
             }
         }
         stage("build docker file"){
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
+     
             steps{
                 sh ' docker build -t chumaedeogu/vote:${build_number} .'
             }
