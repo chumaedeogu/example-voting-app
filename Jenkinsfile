@@ -6,7 +6,7 @@ pipelien{
                 git branch: 'feature', url: 'https://github.com/chumaedeogu/example-voting-app.git'
             }
         }
-    stage(voting app){
+    stage('voting app'){
         steps{
             script{
                 dir('vote')
