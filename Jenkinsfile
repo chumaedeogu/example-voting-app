@@ -24,11 +24,11 @@ pipeline {
                         stage("Test Static Code Analysis") {
                             steps {
                                 withSonarQubeEnv('sonar') {
-                                    sh '''
-                                    $HOME_SONAR/bin/sonar-scanner \
+                                    sh """
+                                    ${HOME_SONAR}/bin/sonar-scanner \
                                     -Dsonar.projectName="voteapp" \
                                     -Dsonar.projectKey="voteapp"
-                                    '''
+                                    """
                                 }
                             }
                         }
@@ -37,9 +37,9 @@ pipeline {
                         stage("Wait for Quality Gate") {
                             steps {
                                 script {
-                                    def test = waitForQualityGate()
-                                    if (test.status != 'OK') {
-                                        error "Pipeline failed due to SonarQube Quality Gate failure: ${test.status}"
+                                    def result = waitForQualityGate()
+                                    if (result.status != 'OK') {
+                                        error "Pipeline failed due to SonarQube Quality Gate failure: ${result.status}"
                                     }
                                 }
                             }
